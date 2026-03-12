@@ -343,23 +343,25 @@ The following checklist defines the completion criteria for the My Projects Dash
 
 | Category | Package | Version | Usage in Sub-Tasks |
 |----------|---------|---------|-------------------|
+| Backend Runtime | Python | 3.13.x | Backend runtime environment |
 | Backend Framework | Flask | 3.1.3 | API blueprint routes for dashboard data endpoints |
-| Validation | Marshmallow | 3.x | Request/response schema serialization |
-| Database | PyMongo | 4.x | MongoDB queries for user-specific project retrieval |
-| Authentication | authlib / pyjwt | Latest | JWT validation for user identification and RBAC |
-| CORS | Flask-CORS | 4.x | Cross-origin configuration |
-| Backend Testing | pytest | 8.x | Unit tests for API and data layer |
+| Validation | Marshmallow | ≥3.26.2 | Request/response schema serialization |
+| Database | PyMongo | ≥4.7.0 | MongoDB queries for user-specific project retrieval |
+| Authentication | authlib / pyjwt | ≥1.6.8 / ≥2.10.1 | JWT validation for user identification and RBAC |
+| CORS | Flask-CORS | ≥6.0.2 | Cross-origin configuration |
+| AI Integration | LangChain | ≥1.2.5 | Blitzy Platform communication and AI-assisted processing |
+| Backend Testing | pytest | ≥9.0.2 | Unit tests for API and data layer |
 | BDD Testing | behave | 1.x | Acceptance criteria validation |
 | Frontend Framework | React | 19.2.4 | UI components (DashboardPage, ProjectCard, etc.) |
 | Type Safety | TypeScript | 5.9.x | Frontend type definitions |
 | CSS Framework | TailwindCSS | 4.2.1 | Design token application, card grid, status badges |
-| Build Tool | Vite | 6.x | Frontend build with @tailwindcss/vite |
+| Build Tool | Vite | ≥7.3.1 | Frontend build with @tailwindcss/vite |
 | Routing | React Router | 7.x | Client-side navigation (dashboard → project detail) |
 | Auth | @auth0/auth0-react | SPA SDK | Session management, user identity, RBAC |
-| Frontend Testing | Vitest | 3.x | Unit tests |
+| Frontend Testing | Vitest | ≥4.0.18 | Unit tests |
 | Component Testing | @testing-library/react | 16.x | Component behavior tests |
-| E2E Testing | Playwright | 1.x | End-to-end workflow tests |
-| Database | MongoDB | 8.0 (Atlas) | Project Spaces collection — user-assigned project data |
+| E2E Testing | Playwright | ≥1.55.1 | End-to-end workflow tests |
+| Database | MongoDB | ≥8.0.17 (Atlas) | Project Spaces collection — user-assigned project data |
 
 ---
 ---

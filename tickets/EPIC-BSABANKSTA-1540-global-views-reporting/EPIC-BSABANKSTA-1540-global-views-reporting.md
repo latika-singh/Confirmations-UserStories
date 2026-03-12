@@ -321,23 +321,25 @@ The following checklist defines the completion criteria for the Global Views and
 
 | Category | Package | Version | Usage in Sub-Tasks |
 |----------|---------|---------|-------------------|
+| Backend Runtime | Python | 3.13.x | Backend runtime environment |
 | Backend Framework | Flask | 3.1.3 | API blueprint routes for reporting endpoints |
-| Validation | Marshmallow | 3.x | Request/response schema serialization |
-| Database | PyMongo | 4.x | MongoDB aggregation pipeline queries |
-| Authentication | authlib / pyjwt | Latest | JWT validation for RBAC |
-| CORS | Flask-CORS | 4.x | Cross-origin configuration |
-| Backend Testing | pytest | 8.x | Unit tests for API and data layer |
+| Validation | Marshmallow | ≥3.26.2 | Request/response schema serialization |
+| Database | PyMongo | ≥4.7.0 | MongoDB aggregation pipeline queries |
+| Authentication | authlib / pyjwt | ≥1.6.8 / ≥2.10.1 | JWT validation for RBAC |
+| CORS | Flask-CORS | ≥6.0.2 | Cross-origin configuration |
+| AI Integration | LangChain | ≥1.2.5 | Blitzy Platform communication and AI-assisted processing |
+| Backend Testing | pytest | ≥9.0.2 | Unit tests for API and data layer |
 | BDD Testing | behave | 1.x | Acceptance criteria validation |
 | Frontend Framework | React | 19.2.4 | UI components |
 | Type Safety | TypeScript | 5.9.x | Frontend type definitions |
 | CSS Framework | TailwindCSS | 4.2.1 | Design token application and styling |
-| Build Tool | Vite | 6.x | Frontend build with @tailwindcss/vite |
+| Build Tool | Vite | ≥7.3.1 | Frontend build with @tailwindcss/vite |
 | Routing | React Router | 7.x | Client-side navigation |
 | Auth | @auth0/auth0-react | SPA SDK | Session management and RBAC |
-| Frontend Testing | Vitest | 3.x | Unit tests |
+| Frontend Testing | Vitest | ≥4.0.18 | Unit tests |
 | Component Testing | @testing-library/react | 16.x | Component behavior tests |
-| E2E Testing | Playwright | 1.x | End-to-end workflow tests |
-| Database | MongoDB | 8.0 (Atlas) | Reporting Views collection, aggregation pipelines |
+| E2E Testing | Playwright | ≥1.55.1 | End-to-end workflow tests |
+| Database | MongoDB | ≥8.0.17 (Atlas) | Reporting Views collection, aggregation pipelines |
 
 ---
 ---
@@ -528,10 +530,10 @@ Scenario: BSA Administrator sees confirmations across all project spaces
 
 | Sub-Task ID | Description | Technical Details |
 |-------------|-------------|-------------------|
-| ST-1541-M1 | MongoDB aggregation pipeline for cross-project confirmation data retrieval | Design a MongoDB aggregation pipeline using PyMongo 4.x that queries across the Project Spaces collection (`BSABANKSTA-1305`), applying `$match` for RBAC-based project space filtering, `$lookup` for project space name resolution, and `$sort` for column ordering. Implement cursor-based data loading using compound keys (sort field + `_id`). |
+| ST-1541-M1 | MongoDB aggregation pipeline for cross-project confirmation data retrieval | Design a MongoDB aggregation pipeline using PyMongo ≥4.7.0 that queries across the Project Spaces collection (`BSABANKSTA-1305`), applying `$match` for RBAC-based project space filtering, `$lookup` for project space name resolution, and `$sort` for column ordering. Implement cursor-based data loading using compound keys (sort field + `_id`). |
 | ST-1541-M2 | Cursor-based data loading model for infinite scroll | Implement cursor token generation and parsing using base64-encoded compound keys. Define configurable batch size via `[Default Batch Size]` (default: 25 records). Support forward-only cursor traversal with `next_cursor` token. |
-| ST-1541-M3 | Marshmallow schema for global confirmations report response | Define `GlobalConfirmationsResponseSchema` (Marshmallow 3.x) with fields: `data` (list of confirmation objects including `project_space_name`), `next_cursor` (string or null), `total_count` (integer), `sort_by` (string), `sort_direction` (string). Include nested `ConfirmationItemSchema`. |
-| ST-1541-M4 | Sort parameter model | Define `SortParameterSchema` (Marshmallow 3.x) with fields: `sort_by` (enum of sortable column names), `sort_direction` (enum: `asc`, `desc`). Validate against allowed sortable columns. |
+| ST-1541-M3 | Marshmallow schema for global confirmations report response | Define `GlobalConfirmationsResponseSchema` (Marshmallow ≥3.26.2) with fields: `data` (list of confirmation objects including `project_space_name`), `next_cursor` (string or null), `total_count` (integer), `sort_by` (string), `sort_direction` (string). Include nested `ConfirmationItemSchema`. |
+| ST-1541-M4 | Sort parameter model | Define `SortParameterSchema` (Marshmallow ≥3.26.2) with fields: `sort_by` (enum of sortable column names), `sort_direction` (enum: `asc`, `desc`). Validate against allowed sortable columns. |
 
 ### API
 
@@ -540,7 +542,7 @@ Scenario: BSA Administrator sees confirmations across all project spaces
 | ST-1541-A1 | Flask blueprint route for `GET /api/reports/confirmations` | Implement Flask 3.1.3 blueprint endpoint with query parameters: `cursor` (optional string), `limit` (optional integer, default from `[Default Batch Size]`, max 100), `sort_by` (optional string, default `created_date`), `sort_direction` (optional string, default `desc`). Require JWT authentication via authlib/pyjwt. |
 | ST-1541-A2 | Response contract definition | Response JSON: `{ "data": [...], "next_cursor": "string|null", "total_count": number, "sort_by": "string", "sort_direction": "string" }`. Each item in `data` includes confirmation fields plus `project_space_id` and `project_space_name`. |
 | ST-1541-A3 | Cross-project data aggregation endpoint logic | Server-side aggregation merges confirmation records across all project spaces accessible to the authenticated user. Apply sort parameters before cursor slicing. Use PyMongo aggregation pipeline with `$facet` for parallel total count and cursor-sliced results. |
-| ST-1541-A4 | RBAC middleware for reporting endpoints | Apply role-based access control: BSA Administrator sees all project spaces; BSA Analyst sees only assigned project spaces. Extract accessible project space IDs from JWT claims or user profile. Inject into aggregation query `$match` filter. Configure Flask-CORS 4.x for cross-origin requests. |
+| ST-1541-A4 | RBAC middleware for reporting endpoints | Apply role-based access control: BSA Administrator sees all project spaces; BSA Analyst sees only assigned project spaces. Extract accessible project space IDs from JWT claims or user profile. Inject into aggregation query `$match` filter. Configure Flask-CORS ≥6.0.2 for cross-origin requests. |
 
 ### Component
 
@@ -570,13 +572,13 @@ Scenario: BSA Administrator sees confirmations across all project spaces
 
 | Sub-Task ID | Description | Technical Details |
 |-------------|-------------|-------------------|
-| ST-1541-T1 | Unit tests (pytest 8.x) for reporting API endpoint | Test cursor-based data loading logic, sort parameter validation, RBAC filtering (admin vs. analyst), empty result set, error responses, boundary conditions (first page, last page, invalid cursor). |
-| ST-1541-T2 | Unit tests (pytest 8.x) for MongoDB aggregation pipeline | Test cross-project aggregation correctness, cursor generation/parsing, sort application, RBAC filter injection, large dataset handling, timeout enforcement via `[Max Aggregation Timeout]`. Mock PyMongo collections. |
+| ST-1541-T1 | Unit tests (pytest ≥9.0.2) for reporting API endpoint | Test cursor-based data loading logic, sort parameter validation, RBAC filtering (admin vs. analyst), empty result set, error responses, boundary conditions (first page, last page, invalid cursor). |
+| ST-1541-T2 | Unit tests (pytest ≥9.0.2) for MongoDB aggregation pipeline | Test cross-project aggregation correctness, cursor generation/parsing, sort application, RBAC filter injection, large dataset handling, timeout enforcement via `[Max Aggregation Timeout]`. Mock PyMongo collections. |
 | ST-1541-T3 | Component tests (@testing-library/react 16.x) for `GlobalConfirmationsReportPage` | Test initial data loading, table rendering, sort interaction, empty state rendering, error state rendering with retry, and loading state transitions. |
 | ST-1541-T4 | Component tests for `ReportDataTable` | Test column header rendering, sort click handling, `aria-sort` attribute management, row rendering with project space origin. |
 | ST-1541-T5 | Component tests for `InfiniteScrollTrigger` | Test Intersection Observer setup, callback invocation on intersection, and observer disconnection when no more data. |
 | ST-1541-T6 | BDD tests (behave 1.x) for acceptance criteria | Implement feature files mapping to all 9 AC scenarios (AC1–AC9). Validate end-to-end behavior using Given/When/Then steps. |
-| ST-1541-T7 | E2E tests (Playwright 1.x) for full report flow | Test complete flow: navigation → initial load → scroll-triggered batch → column sorting → empty state → error state with retry → RBAC enforcement. |
+| ST-1541-T7 | E2E tests (Playwright ≥1.55.1) for full report flow | Test complete flow: navigation → initial load → scroll-triggered batch → column sorting → empty state → error state with retry → RBAC enforcement. |
 | ST-1541-T8 | Accessibility tests | Verify `aria-sort` attributes, keyboard navigation through sortable headers, screen reader announcements for sort changes and loading states, focus management. |
 | ST-1541-T9 | Performance tests | Verify < 3s initial page load to first meaningful paint under representative data volume. |
 
@@ -754,9 +756,9 @@ No dedicated Figma wireframes exist for F-004 (Global Views and Reporting). All 
 ## Definition of Done (Story-Level)
 
 - [ ] All acceptance criteria (AC1–AC9) pass BDD validation
-- [ ] Unit tests written and passing (pytest 8.x for API, Vitest 3.x for components)
+- [ ] Unit tests written and passing (pytest ≥9.0.2 for API, Vitest ≥4.0.18 for components)
 - [ ] Component tests written and passing (@testing-library/react 16.x)
-- [ ] E2E tests written and passing (Playwright 1.x)
+- [ ] E2E tests written and passing (Playwright ≥1.55.1)
 - [ ] BDD tests written and passing (behave 1.x)
 - [ ] Code reviewed and approved
 - [ ] Cross-project data aggregation verified with multiple project spaces
@@ -955,7 +957,7 @@ Scenario: Empty state displays when no records match applied filters
 
 | Sub-Task ID | Description | Technical Details |
 |-------------|-------------|-------------------|
-| ST-1542-M1 | Filter parameter Marshmallow schema | Define `ReportFilterSchema` (Marshmallow 3.x) with fields: `date_range_start` (optional datetime), `date_range_end` (optional datetime), `project_space_ids` (optional list of strings), `confirmation_statuses` (optional list of enum values), `confirmation_types` (optional list of enum values). Include validation for date range logic (start <= end). |
+| ST-1542-M1 | Filter parameter Marshmallow schema | Define `ReportFilterSchema` (Marshmallow ≥3.26.2) with fields: `date_range_start` (optional datetime), `date_range_end` (optional datetime), `project_space_ids` (optional list of strings), `confirmation_statuses` (optional list of enum values), `confirmation_types` (optional list of enum values). Include validation for date range logic (start <= end). |
 | ST-1542-M2 | Extended MongoDB aggregation pipeline with filter stages | Extend the aggregation pipeline from BSABANKSTA-1541 to inject `$match` stages for each active filter dimension. Implement dynamic pipeline construction — only include `$match` stages for filters that are actively applied. Maintain cursor-based infinite scroll compatibility. |
 | ST-1542-M3 | Filter options data model | Define models for retrieving available filter values: list of accessible project spaces (filtered by RBAC), list of confirmation statuses, list of confirmation types. These populate the filter control dropdowns. |
 
@@ -994,13 +996,13 @@ Scenario: Empty state displays when no records match applied filters
 
 | Sub-Task ID | Description | Technical Details |
 |-------------|-------------|-------------------|
-| ST-1542-T1 | Unit tests (pytest 8.x) for filter parameter validation | Test each filter dimension validation, combined filter validation, invalid inputs (bad dates, unknown statuses), and empty filters. |
-| ST-1542-T2 | Unit tests (pytest 8.x) for filtered aggregation pipeline | Test MongoDB aggregation with each filter type applied individually and in combination. Verify correct `$match` stage injection. Test edge cases: date range boundaries, empty filter values. |
-| ST-1542-T3 | Unit tests (pytest 8.x) for filter-options endpoint | Test RBAC filtering of project space list (admin vs. analyst), available status/type enumeration, and authentication requirement. |
+| ST-1542-T1 | Unit tests (pytest ≥9.0.2) for filter parameter validation | Test each filter dimension validation, combined filter validation, invalid inputs (bad dates, unknown statuses), and empty filters. |
+| ST-1542-T2 | Unit tests (pytest ≥9.0.2) for filtered aggregation pipeline | Test MongoDB aggregation with each filter type applied individually and in combination. Verify correct `$match` stage injection. Test edge cases: date range boundaries, empty filter values. |
+| ST-1542-T3 | Unit tests (pytest ≥9.0.2) for filter-options endpoint | Test RBAC filtering of project space list (admin vs. analyst), available status/type enumeration, and authentication requirement. |
 | ST-1542-T4 | Component tests (@testing-library/react 16.x) for `FilterPanel` | Test filter control rendering, interaction (select/deselect values), filter chip display, clear all action, and responsive layout. |
 | ST-1542-T5 | Component tests for individual filter controls | Test each filter component: `DateRangeFilter` (date selection, validation, clear), `ProjectSpaceFilter` (multi-select, RBAC-filtered options), `StatusFilter`, `TypeFilter`. |
 | ST-1542-T6 | BDD tests (behave 1.x) for acceptance criteria | Implement feature files mapping to all 9 AC scenarios (AC1–AC9). |
-| ST-1542-T7 | E2E tests (Playwright 1.x) for filter workflow | Test complete filter flow: apply date range → add project space filter → verify composable filtering → clear individual filter → clear all → verify empty state after filtering. |
+| ST-1542-T7 | E2E tests (Playwright ≥1.55.1) for filter workflow | Test complete filter flow: apply date range → add project space filter → verify composable filtering → clear individual filter → clear all → verify empty state after filtering. |
 
 ---
 
@@ -1153,9 +1155,9 @@ No dedicated Figma wireframes exist for F-004 (Global Views and Reporting). All 
 ## Definition of Done (Story-Level)
 
 - [ ] All acceptance criteria (AC1–AC9) pass BDD validation
-- [ ] Unit tests written and passing (pytest 8.x for API filter validation and pipeline, Vitest 3.x for filter components)
+- [ ] Unit tests written and passing (pytest ≥9.0.2 for API filter validation and pipeline, Vitest ≥4.0.18 for filter components)
 - [ ] Component tests written and passing (@testing-library/react 16.x for FilterPanel, DateRangeFilter, all dropdowns)
-- [ ] E2E tests written and passing (Playwright 1.x for complete filter workflow)
+- [ ] E2E tests written and passing (Playwright ≥1.55.1 for complete filter workflow)
 - [ ] BDD tests written and passing (behave 1.x)
 - [ ] Code reviewed and approved
 - [ ] All four filter dimensions functional (date range, project space, status, type)
@@ -1342,8 +1344,8 @@ Scenario: Error state displays when summary statistics fail to load
 
 | Sub-Task ID | Description | Technical Details |
 |-------------|-------------|-------------------|
-| ST-1543-M1 | Summary statistics MongoDB aggregation pipeline | Define a dedicated aggregation pipeline using PyMongo 4.x that computes: `$group` by status for status breakdown, `$count` for total confirmations, `$group` by `project_space_id` with `$addToSet` for distinct project count, and a date-windowed comparison for period trend. Pipeline must accept filter parameters from BSABANKSTA-1542 as optional `$match` stages. |
-| ST-1543-M2 | Summary statistics response schema | Define `SummaryStatisticsSchema` (Marshmallow 3.x) with fields: `total_confirmations` (integer), `status_breakdown` (list of objects with `status`, `count`, `percentage`), `active_project_spaces` (integer), `period_trend` (object with `direction`, `percentage_change`, `current_period_count`, `previous_period_count`). |
+| ST-1543-M1 | Summary statistics MongoDB aggregation pipeline | Define a dedicated aggregation pipeline using PyMongo ≥4.7.0 that computes: `$group` by status for status breakdown, `$count` for total confirmations, `$group` by `project_space_id` with `$addToSet` for distinct project count, and a date-windowed comparison for period trend. Pipeline must accept filter parameters from BSABANKSTA-1542 as optional `$match` stages. |
+| ST-1543-M2 | Summary statistics response schema | Define `SummaryStatisticsSchema` (Marshmallow ≥3.26.2) with fields: `total_confirmations` (integer), `status_breakdown` (list of objects with `status`, `count`, `percentage`), `active_project_spaces` (integer), `period_trend` (object with `direction`, `percentage_change`, `current_period_count`, `previous_period_count`). |
 | ST-1543-M3 | Period trend calculation model | Define the period comparison logic: default 30-day window (current 30 days vs. previous 30 days). Compute percentage change. Handle edge case of zero previous-period data. |
 
 ### API
@@ -1379,13 +1381,13 @@ Scenario: Error state displays when summary statistics fail to load
 
 | Sub-Task ID | Description | Technical Details |
 |-------------|-------------|-------------------|
-| ST-1543-T1 | Unit tests (pytest 8.x) for summary aggregation pipeline | Test aggregation with known data: verify total count, status breakdown percentages, distinct project count, and period trend calculation. Test with empty data, single project, multiple projects. |
-| ST-1543-T2 | Unit tests (pytest 8.x) for summary API endpoint | Test response structure, RBAC scoping (admin vs. analyst), filter parameter pass-through, error handling, and caching behavior. |
-| ST-1543-T3 | Unit tests (pytest 8.x) for period trend computation | Test percentage change calculation: positive trend, negative trend, flat trend, zero previous period, zero both periods, very large changes. |
+| ST-1543-T1 | Unit tests (pytest ≥9.0.2) for summary aggregation pipeline | Test aggregation with known data: verify total count, status breakdown percentages, distinct project count, and period trend calculation. Test with empty data, single project, multiple projects. |
+| ST-1543-T2 | Unit tests (pytest ≥9.0.2) for summary API endpoint | Test response structure, RBAC scoping (admin vs. analyst), filter parameter pass-through, error handling, and caching behavior. |
+| ST-1543-T3 | Unit tests (pytest ≥9.0.2) for period trend computation | Test percentage change calculation: positive trend, negative trend, flat trend, zero previous period, zero both periods, very large changes. |
 | ST-1543-T4 | Component tests (@testing-library/react 16.x) for `SummaryStatisticsSection` | Test card rendering with mock data, loading skeleton display, error state display, retry button functionality, and responsive layout. |
 | ST-1543-T5 | Component tests for `MetricCard` and `TrendIndicator` | Test number formatting, trend direction colors, accessibility (aria-labels, screen reader text for trend direction), and edge case values. |
 | ST-1543-T6 | BDD tests (behave 1.x) for acceptance criteria | Implement feature files mapping to all 9 AC scenarios (AC1–AC9). |
-| ST-1543-T7 | E2E tests (Playwright 1.x) for summary statistics workflow | Test: page load → summary cards display → apply filter → summary updates → error simulation → retry → verify RBAC scoping with different user roles. |
+| ST-1543-T7 | E2E tests (Playwright ≥1.55.1) for summary statistics workflow | Test: page load → summary cards display → apply filter → summary updates → error simulation → retry → verify RBAC scoping with different user roles. |
 
 ---
 
@@ -1553,9 +1555,9 @@ No dedicated Figma wireframes exist for F-004 (Global Views and Reporting). All 
 ## Definition of Done (Story-Level)
 
 - [ ] All acceptance criteria (AC1–AC9) pass BDD validation
-- [ ] Unit tests written and passing (pytest 8.x for aggregation pipeline and API, Vitest 3.x for components)
+- [ ] Unit tests written and passing (pytest ≥9.0.2 for aggregation pipeline and API, Vitest ≥4.0.18 for components)
 - [ ] Component tests written and passing (@testing-library/react 16.x for SummaryStatisticsSection, MetricCard, TrendIndicator)
-- [ ] E2E tests written and passing (Playwright 1.x for summary statistics workflow)
+- [ ] E2E tests written and passing (Playwright ≥1.55.1 for summary statistics workflow)
 - [ ] BDD tests written and passing (behave 1.x)
 - [ ] Code reviewed and approved
 - [ ] All four summary metric cards render correctly with real data
