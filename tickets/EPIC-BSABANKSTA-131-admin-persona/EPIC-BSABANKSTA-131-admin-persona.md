@@ -60,22 +60,21 @@ The following items are explicitly excluded from this epic:
 
 | Story ID | Title | Story Points | Figma Frames | File Path |
 |----------|-------|:------------:|--------------|-----------|
-| BSABANKSTA-1579 | Manage Global System Messages | 8 | 6 frames: `8304-120310`, `8304-120342`, `8304-120318`, `8304-123107`, `8304-123120`, `8304-123149` | [STORY-BSABANKSTA-1579-manage-global-system-messages.md](./STORY-BSABANKSTA-1579-manage-global-system-messages.md) |
+| BSABANKSTA-1579-A | Create Global System Message | 5 | 3 frames (create flow): `8304-120310`, `8304-120342`, `8304-123107` | [STORY-BSABANKSTA-1579-manage-global-system-messages.md](./STORY-BSABANKSTA-1579-manage-global-system-messages.md) (Create section) |
+| BSABANKSTA-1579-B | Edit Global System Message | 5 | 3 frames (edit flow): `8304-120318`, `8304-123120`, `8304-123149` | [STORY-BSABANKSTA-1579-manage-global-system-messages.md](./STORY-BSABANKSTA-1579-manage-global-system-messages.md) (Edit section) |
 | BSABANKSTA-1500 | Manage User Library | 8 | 1 frame: `7178-133386` | [STORY-BSABANKSTA-1500-manage-user-library.md](./STORY-BSABANKSTA-1500-manage-user-library.md) |
 | BSABANKSTA-1458 | View Integration Audit Trail | 8 | 3 frames: `7408-96357`, `7437-87603`, `7485-99556` | [STORY-BSABANKSTA-1458-view-integration-audit-trail.md](./STORY-BSABANKSTA-1458-view-integration-audit-trail.md) |
 
-> **Total Estimated Story Points: 24**
+> **Total Estimated Story Points: 26** (5 + 5 + 8 + 8)
 
-### Decomposition Note (Global Rule #2)
+### Decomposition Applied (Global Rule #2)
 
-Story **BSABANKSTA-1579** (Manage Global System Messages) has 6 Figma frames representing distinct create and edit modal workflows. If during story-level processing this story is found to have >10 acceptance criteria or contains multiple distinct workflows (create, edit, delete), it **must** be decomposed into sub-stories per Global Rule #2:
+Story **BSABANKSTA-1579** (Manage Global System Messages) has been decomposed into two sub-stories per Global Rule #2 — the original story contained 11+ acceptance criteria with distinct create and edit workflows across 6 Figma frames:
 
-| Sub-Story ID | Title | Story Points | Figma Frames | File Path |
-|--------------|-------|:------------:|--------------|-----------|
-| BSABANKSTA-1579-A | Create Global System Message | 5 | 3 frames (create flow): `8304-120310`, `8304-120342`, `8304-123107` | [STORY-BSABANKSTA-1579-manage-global-system-messages.md](./STORY-BSABANKSTA-1579-manage-global-system-messages.md) (Create section) |
-| BSABANKSTA-1579-B | Edit Global System Message | 5 | 3 frames (edit flow): `8304-120318`, `8304-123120`, `8304-123149` | [STORY-BSABANKSTA-1579-manage-global-system-messages.md](./STORY-BSABANKSTA-1579-manage-global-system-messages.md) (Edit section) |
+- **STORY-BSABANKSTA-1579-A** — Create Global System Message (5 pts, 10 ACs, 3 Figma frames: `8304-120310`, `8304-120342`, `8304-123107`)
+- **STORY-BSABANKSTA-1579-B** — Edit Global System Message (5 pts, 10 ACs, 3 Figma frames: `8304-120318`, `8304-123120`, `8304-123149`)
 
-> **If decomposed, Total Estimated Story Points: 26** (5 + 5 + 8 + 8)
+Both sub-stories are documented in [STORY-BSABANKSTA-1579-manage-global-system-messages.md](./STORY-BSABANKSTA-1579-manage-global-system-messages.md) with complete 14-section templates for each sub-story.
 
 ---
 
@@ -136,7 +135,7 @@ The following checklist defines the completion criteria for the BSA Admin Person
 
 ### Functional Completion
 
-- [ ] All 3 user stories (or 4 if BSABANKSTA-1579 is decomposed) are completed and accepted by the Product Owner
+- [ ] All 4 user stories (BSABANKSTA-1579-A, BSABANKSTA-1579-B, BSABANKSTA-1500, BSABANKSTA-1458) are completed and accepted by the Product Owner
 - [ ] All acceptance criteria across all stories pass BDD (Given/When/Then) validation
 - [ ] System message CRUD operates correctly via the modal interface:
   - [ ] Create new system messages with all required fields and visibility configuration
