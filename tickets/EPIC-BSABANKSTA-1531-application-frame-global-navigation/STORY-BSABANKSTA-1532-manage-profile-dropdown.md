@@ -256,6 +256,10 @@ Scenario: Profile Dropdown is always accessible from the sticky Application Head
 
 ## Refinement Notes
 
+### Global Rule #2 — Proactive Story Decomposition
+- **Status:** No decomposition required.
+- **Rationale:** This story contains 9 acceptance criteria (AC1–AC9) with a single user workflow (profile dropdown interaction — open, view, navigate, logout). The AC count is below the >10 threshold defined by Global Rule #2, and there are no distinct multi-workflow patterns (e.g., separate create/edit/delete flows) that would warrant decomposition into sub-stories. The story remains a cohesive unit focused on the Profile Dropdown component lifecycle.
+
 ### Global Rule #3 — Verb-Noun Title Standardization
 - **Original Jira Title:** "Application Header | Profile Dropdown Menu BSABANKSTA-1532"
 - **Standardized Title:** "Manage Profile Dropdown"

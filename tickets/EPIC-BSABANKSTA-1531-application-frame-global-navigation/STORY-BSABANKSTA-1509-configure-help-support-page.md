@@ -230,6 +230,10 @@ Scenario: Loading indicator is displayed while help content is being fetched
 
 ## Refinement Notes
 
+### Global Rule #2 — Proactive Story Decomposition
+- **Status:** No decomposition required.
+- **Rationale:** This story contains 7 acceptance criteria (AC1–AC7) with a single user workflow (navigating to and interacting with a configurable content page). The AC count is well below the >10 threshold defined by Global Rule #2, and the story follows a single linear flow (navigate → view content → browse categories → resolve placeholders) without distinct multi-workflow patterns (e.g., separate create/edit/delete flows). The story remains a well-scoped, single-page content display feature.
+
 ### Global Rule #3 — Verb-Noun Title Standardization
 - **Original Jira Title:** "Configurable Help & Support page BSABANKSTA-1509"
 - **Standardized Title:** "Configure Help & Support Page"

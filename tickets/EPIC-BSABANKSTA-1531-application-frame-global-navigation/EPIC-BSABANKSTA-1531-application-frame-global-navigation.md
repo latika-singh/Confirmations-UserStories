@@ -104,6 +104,7 @@ The following features are part of this epic's scope but are addressed as implic
 | Epic ID | Epic Name | Batch | Dependency Type | Description |
 |---------|-----------|:-----:|-----------------|-------------|
 | BSABANKSTA-1305 | Create/Modify Project Space | 1 | Data Producer | Navigation routing requires project space feature to exist as a route target. The All Confirmations Page (BSABANKSTA-1536) aggregates confirmation data originating from project space entities managed by F-001. Without F-001, the Application Frame has no project data to route to or display. |
+| BSABANKSTA-1540 | Global Views and Reporting | 2 | Data Provider (Shared Surface) | The All Confirmations Page (BSABANKSTA-1536) depends on F-004 (Global Views and Reporting) for its data aggregation backend and MongoDB query logic. While this epic provides the navigation container and page shell, F-004 provides the cross-project confirmation data aggregation, reporting queries, and API endpoints that power the All Confirmations table content. This is a bidirectional shared surface dependency. |
 | Auth0 | Auth0 Identity Provider | External Service | Authentication & Session | Profile Dropdown (BSABANKSTA-1532) and the entire authenticated routing flow depend on Auth0 for identity verification, session management, JWT token issuance, and logout functionality. The Auth0 SPA SDK (`@auth0/auth0-react`) powers the authentication guard on all routes. |
 
 ### Epics That Depend On This Epic

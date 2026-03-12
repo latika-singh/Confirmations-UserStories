@@ -16,7 +16,7 @@ The dependency graph captures three categories of inter-epic relationships:
 
 | Epic ID | Epic Name | Batch | Directory |
 |---------|-----------|-------|-----------|
-| `BSABANKSTA-1305` | Create/Modify Project Space | Batch 1 | `tickets/EPIC-BSABANKSTA-1305-create-modify-project-space/` |
+| `BSABANKSTA-1305` | Create/Modify Project Space | Batch 1 | `tickets/EPIC-BSABANKSTA-1305-create-modify-project-space.md` |
 | `BSABANKSTA-131` | BSA Admin Persona | Batch 2 | `tickets/EPIC-BSABANKSTA-131-admin-persona/` |
 | `BSABANKSTA-1531` | Application Frame and Global Navigation | Batch 2 | `tickets/EPIC-BSABANKSTA-1531-application-frame-global-navigation/` |
 | `BSABANKSTA-1540` | Global Views and Reporting | Batch 2 | `tickets/EPIC-BSABANKSTA-1540-global-views-reporting/` |

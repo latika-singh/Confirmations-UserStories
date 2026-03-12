@@ -303,6 +303,10 @@ Scenario: BSA Administrator sees confirmations across all project spaces
 
 ## Refinement Notes
 
+### Global Rule #2 — Proactive Story Decomposition
+- **Status:** No decomposition required.
+- **Rationale:** This story contains 9 acceptance criteria (AC1–AC9) with a single user workflow (viewing cross-project confirmation data in a table with infinite scroll and sorting). The AC count is below the >10 threshold defined by Global Rule #2, and the story focuses on a single cohesive page interaction pattern (navigate → load → scroll → sort) without distinct multi-workflow branches (e.g., separate create/edit/delete flows). The story remains a well-scoped, single-page data viewing experience.
+
 ### Global Rule #3 — Verb-Noun Title Standardization
 - **Original Jira Title:** "Reporting | All Confirmations Page BSABANKSTA-1536"
 - **Standardized Title:** "View All Confirmations"
@@ -331,6 +335,15 @@ Scenario: BSA Administrator sees confirmations across all project spaces
 
 ### Global Rule #7 — Placeholder Management
 - **Status:** No `[Application Name]` placeholder is directly used within this story's content or UI elements. However, the All Confirmations page header area may reference the application name via the persistent Application Header component (managed by the parent Application Frame epic BSABANKSTA-1531). Placeholder resolution is handled at the Application Header level, not within this story's scope.
+
+### Global Rule #8 — Generated UI Specifications
+- **Status:** Applied.
+- **Assessment:** The All Confirmations Page has 1 Figma frame (`8241-118805`) covering the primary table layout. However, 4 undepicted UI element groups were identified during story processing that require Generated UI Specifications per the 4-step SOP:
+  1. **Empty State Display** — No Figma frame exists for the zero-data state; specification generated using the shared Empty State pattern (Priority 1: Reuse Similar Existing Component).
+  2. **End-of-List Indicator** — No Figma frame exists for the all-data-loaded state; specification generated using the shared End-of-List Indicator pattern (Priority 1: Reuse Similar Existing Component).
+  3. **Error State with Retry** — No Figma frame exists for API failure states; specification generated using the shared Error State / Retry pattern (Priority 1: Reuse Similar Existing Component).
+  4. **Loading Indicator (Infinite Scroll Batch Fetch)** — No Figma frame exists for the in-progress data loading state; specification generated using semantic loading tokens (Priority 2: Semantic Tokens).
+- **Action:** All 4 undepicted element groups are documented in the [Generated UI Specifications](#generated-ui-specifications) section with the mandatory `DESIGN REVIEW REQUIRED` banner, three-tier token priority hierarchy, and design token tables.
 
 ---
 
